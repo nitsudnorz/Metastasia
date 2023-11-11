@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 59.0, 118.0, 925.0, 889.0 ],
+		"rect" : [ 59.0, 119.0, 1358.0, 888.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -141,7 +141,7 @@
 					"numoutlets" : 5,
 					"outlettype" : [ "signal", "signal", "", "float", "list" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 133.0, 822.0, 48.0, 136.0 ],
+					"patching_rect" : [ 101.0, 780.0, 48.0, 136.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
 							"parameter_longname" : "live.gain~",
@@ -255,18 +255,6 @@
 			}
 , 			{
 				"box" : 				{
-					"id" : "obj-101",
-					"maxclass" : "newobj",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "signal" ],
-					"patching_rect" : [ 151.0, 750.0, 43.0, 22.0 ],
-					"text" : "cycle~"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-100",
 					"maxclass" : "message",
 					"numinlets" : 2,
@@ -274,17 +262,6 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 181.0, 642.0, 79.0, 22.0 ],
 					"text" : "0, 195 19500"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-98",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 251.0, 725.0, 100.0, 22.0 ]
 				}
 
 			}
@@ -1121,6 +1098,13 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-35", 1 ],
+					"source" : [ "obj-31", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-35", 0 ],
 					"source" : [ "obj-31", 0 ]
 				}
@@ -1571,7 +1555,7 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "tangententest.maxpat",
-				"bootpath" : "~/Documents/Max 8/Projects/KURVENCERSUCHMETASTASIE/patchers",
+				"bootpath" : "~/Documents/Metastasie/KURVENCERSUCHMETASTASIE/patchers",
 				"patcherrelativepath" : ".",
 				"type" : "JSON",
 				"implicit" : 1
