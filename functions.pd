@@ -1,10 +1,10 @@
-#N canvas 173 123 1278 617 12;
-#X obj 100 12 table F2;
-#X obj 100 39 table F3;
-#X obj 100 66 table F4;
-#X obj 100 93 table F5;
-#X obj 100 120 table F6;
-#X obj 100 147 table F7;
+#N canvas 173 123 1278 589 12;
+#X obj 100 -16 table F2;
+#X obj 100 11 table F3;
+#X obj 100 38 table F4;
+#X obj 100 65 table F5;
+#X obj 100 92 table F6;
+#X obj 100 119 table F7;
 #N canvas 430 56 644 278 writerF1 0;
 #X obj 52 406 s list1;
 #X obj 85 125 f 30;
@@ -43,8 +43,8 @@
 #X connect 15 0 16 0;
 #X connect 16 0 4 0;
 #X connect 16 1 13 0;
-#X restore 7 -15 pd writerF1;
-#X obj 100 -15 table F1;
+#X restore 7 -43 pd writerF1;
+#X obj 100 -43 table F1;
 #N canvas 356 60 875 849 writerF2 0;
 #X msg 392 61 \; F2 resize 16385;
 #X msg 392 110 \; F2 normalize;
@@ -188,7 +188,7 @@
 #X connect 36 0 37 0;
 #X connect 37 0 2 0;
 #X connect 37 1 0 0;
-#X restore 7 12 pd writerF2;
+#X restore 7 -16 pd writerF2;
 #N canvas 308 252 710 529 writerF3 0;
 #X obj 244 320 list split 4;
 #X obj 135 280 list split 2;
@@ -332,7 +332,7 @@
 #X connect 35 0 33 0;
 #X connect 35 1 36 0;
 #X connect 36 0 37 0;
-#X restore 7 39 pd writerF3;
+#X restore 7 11 pd writerF3;
 #N canvas 527 38 839 685 writerF4 0;
 #X obj 244 320 list split 4;
 #X obj 135 280 list split 2;
@@ -476,7 +476,7 @@
 #X connect 35 0 33 0;
 #X connect 35 1 36 0;
 #X connect 36 0 37 0;
-#X restore 7 66 pd writerF4;
+#X restore 7 38 pd writerF4;
 #N canvas 170 64 778 700 writerF5 0;
 #X obj 244 320 list split 4;
 #X obj 135 280 list split 2;
@@ -620,7 +620,7 @@
 #X connect 36 0 37 0;
 #X connect 37 0 35 0;
 #X connect 37 1 33 0;
-#X restore 7 93 pd writerF5;
+#X restore 7 65 pd writerF5;
 #N canvas 2 92 965 627 writerF6 0;
 #X obj 244 320 list split 4;
 #X obj 135 280 list split 2;
@@ -764,7 +764,7 @@
 #X connect 36 0 37 0;
 #X connect 37 0 32 0;
 #X connect 37 1 34 0;
-#X restore 7 120 pd writerF6;
+#X restore 7 92 pd writerF6;
 #N canvas 202 146 775 578 writerF7 0;
 #X obj 244 320 list split 4;
 #X obj 135 280 list split 2;
@@ -908,7 +908,7 @@
 #X connect 36 0 37 0;
 #X connect 37 0 32 0;
 #X connect 37 1 34 0;
-#X restore 7 147 pd writerF7;
+#X restore 7 119 pd writerF7;
 #N canvas 372 174 605 606 writerF8 0;
 #X obj 244 320 list split 4;
 #X obj 135 280 list split 2;
@@ -1052,10 +1052,11 @@
 #X connect 36 0 37 0;
 #X connect 37 0 32 0;
 #X connect 37 1 34 0;
-#X restore 7 174 pd writerF8;
-#X obj 100 174 table F8;
-#X text 191 3 These are the functiontables F1-F9 to be read in the engine;
-#N canvas 626 217 605 578 writerF8 1;
+#X restore 7 146 pd writerF8;
+#X obj 100 146 table F8;
+#X text 536 -2 These are the functiontables F1-F9 to be read in the engine;
+#X obj 101 177 table F9;
+#N canvas 626 217 605 578 writerF9 0;
 #X obj 244 320 list split 4;
 #X obj 135 280 list split 2;
 #X obj 90 320 list append;
@@ -1198,6 +1199,6 @@
 #X connect 33 1 34 0;
 #X connect 34 0 35 0;
 #X connect 37 0 29 0;
-#X restore 8 205 pd writerF8;
-#X obj 101 205 table F9;
-#X coords 0 617 1 616 85 60 0;
+#X restore 8 177 pd writerF9;
+#X text 203 -41 functions 1-8 represent the functiontables used in Stria by John chowning;
+#X coords 0 589 1 588 85 60 0;
