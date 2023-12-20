@@ -6,6 +6,7 @@
 library(tidyverse)
 library(purrr)
 library(nlme)
+library(lazyeval)
 
 #plot a function
 f1 <- function(x){
@@ -465,31 +466,227 @@ testtangent
 
 ######
 
+####initvalues for function
 #x starting value
-xs=30
-#list of seeds y startingvalues at 0
+xs=0
+#list of seeds y startingvalues at xs
 seed <- list(1, 2 )
-#offsets to equation
+#offsets from seed to equation
 d1 <- list(10, 5, 17)
 #offsets from equation to turningpoint
 d2 <- list(10, 5, 17)
+#####turningpoint->seed
 #list of equations
 equation_list <- list(quote(x^2-3*x), quote((x-2)^2+3*x-500), quote((-x-2)^2+3*x-19))
 
 ##functions to write equation
 '%c%' <- function(a,b) bquote(.(a) * .(b))
 '%d%' <- function(a,b) bquote(.(a) - .(b))
+######
 
+
+#substitute offset into equation
+offsetintoequation <- function(state,eq)
+{      
+  x<-quote(x)
+  w <- x %d% state
+  ww <- enquote(w)
+  e <- eq
+  k <- substitute_q(e, list(x = (eval(ww))))
+  return (k)
+}
+
+offsetintoequation(10,nth(equation_list,2))
+
+
+
+### calculate touching point t from point and equation
+
+#write equation for touchingpoint
+
+writetpointeq <- function(px,py,eq)
+{fu = as.expression(eq)
+  #print(fu)
+  diffx = quote(x) %d% px
+  expr1 <- fu
+  expr2 <- as.expression(D(fu,'x'))
+  expr3 <- as.expression(diffx)
+  expr4 <- as.expression(py)
+  g <- do.call(substitute, list(as.list(expr3)[[1]], env= list(a=2)))
+  h <- do.call(substitute, list(as.list(expr2)[[1]], env= list(a=2)))
+  i <- do.call(substitute, list(as.list(expr1)[[1]], env= list(a=3)))
+  j <- do.call(substitute, list(as.list(expr4)[[1]], env= list(a=4)))
+  fooExpr <- h %c% g
+  foofooExpr <- fooExpr %d% i
+  foofoofooExpr <- foofooExpr %d% j
+  return (paste(deparse1(foofoofooExpr)))
+} 
+
+(writetpointeq(0,-50,offsetintoequation(10,nth(equation_list,2))))
+
+#calculate x value for touching point
+
+gettpoint <- function(eq,witchpoint)  {
+# print(foofoofooExpr)
+  equa <- function(x){
+    return(eval(parse( text = eq)))}
+  force(equa)
+  print(equa)
+  t = nth((uniroot.all (equa, lower = 0, upper = 10,
+                      tol = 0.0001)),witchpoint)
+  return (t)
+}
+
+gettpoint((writetpointeq(0,-50,offsetintoequation(10,nth(equation_list,1)))),1)
+
+
+nth(equation_list,1)
+#####
+
+####build function list (vect_2)
+
+
+(quote((x-2)^-2+(3*x)-199))
+
+(as.list(parse(text=(writetpointeq(0,-50,offsetintoequation(10,nth(equation_list,1)))))))
+
+vect_2 <- numeric()
+
+vect_2
+
+vect_2 <- c(vect_2, as.vector(as.list(parse(text=(writetpointeq(0,-50,offsetintoequation(10,nth(equation_list,1))))))))
+
+funcs <- list()
+####,vect
+
+#####drawbaseequations
+
+#offsets from seed to equation
+d1 <- list(10, 25, 17)
+#offsets from equation to turningpoint
+d2 <- list(20, 25, 17)
+#####turningpoint->seed
+
+#list of equations
+equation_list <- list(quote(x^2-3*x), quote(-((x-2)^2+3*x+140)), quote((-x-2)^2+3*x-19))
+
+
+###to dataframe
+equations = (matrix(unlist(equation_list), ncol=length(l), byrow=TRUE))
+
+d <- data.frame(offset = unlist(d1), equations, onset =unlist(d2))
+d
+
+
+
+
+###iterate through dataframe
+vect_2 <-numeric()
+xs=0
+for(i in seq_len(nrow(d))) {
+  vect_2 <- c(vect_2, as.vector(offsetintoequation(xs+d[i,1],nth((d[i,2]),1))))
+  print(offsetintoequation(xs+d[i,1],nth((d[i,2]),1)))
+  xs <- xs+d[i,1]+d[i,3]
+  force(xs)
+}
+
+vect_2
+          
+
+######drawtangents
+seed <- list(-450, 500 )
+
+i=1
+
+xs=0
+for(i in seq_len(nrow(d))) {
+  # (gettpoint((writetpointeq(xs,-450,(offsetintoequation(xs+d[i,1],nth((d[i,2]),1))))),1))
+  eql = (writetpointeq(0,-50,(offsetintoequation(xs+d[i,1],nth((d[i,2]),1)))))
+  force(eql)
+  print(eql)
+  t = (gettpoint(eql,1))
+  #print(t)
+  force(t)
+  fu = parse(text=(eql))
+  force(fu)
+  #print(fu)
+  fun = function(x){derivate(t,fu)*x+(func(t,fu)-derivate(t,fu)*t)}
+  #print(fun)
+  #print(eql)
+  #for (s in seed)
+  #{print(s)}
+  #print(offsetintoequation(xs+d[i,1],nth((d[i,2]),1)))
+  xs <- xs+d[i,1]+d[i,3]
+  force(xs)
+}
+
+i=1
+
+eql = (writetpointeq(0,-50,(offsetintoequation(xs+d[i,1],nth((d[i,2]),1)))))
+
+gettpoint((writetpointeq(0,50,(offsetintoequation(xs+d[i,1],nth((d[i,2]),1))))),1)
+
+
+eql=(nth((as.list(parse(text=(writetpointeq(0,-50,(offsetintoequation(xs+d[i,1],nth((d[i,2]),1)))))))),1))
+
+eql
+gettpoint(eql,1)
+
+
+func <- function(x,fu){
+  return( eval(fu) )
+}
+derivate <- function(x,fu){
+  return( eval(D(fu,'x')) )
+}
+
+derivate(2, expression(x^2+3*x))
+func(2, expression(x^2+3*x)) 
+
+fu = expression(x^2+3*x)
+
+fu = parse(text=(eql))
+
+fun = function(x){derivate(t,fu)*x+(func(t,fu)-derivate(t,fu)*t)}
+
+fun(3)
+
+
+
+###write line equation
+
+'%c%' <- function(a,b) bquote(.(a) * .(b))
+'%d%' <- function(a,b) bquote(.(a) - .(b))
+'%e%' <- function(a,b) bquote(.(a) + .(b))
+
+tangeq <- function(x,a){}
+
+writelineeq <-function(eq,t)
+fu = as.expression(eq)
+expr1 <- fu
+expr2 <- as.expression(D(fu,'x'))
+z = quote(z)
+k <- do.call(substitute, list(as.list(expr1)[[1]], env= list(a=2)))
+l <- do.call(substitute, list(as.list(expr2)[[1]], env= list(a=2)))
+dooExpr <- l %c% z
+doodooExpr <- dooExpr %e% k
+doodoodooExpr <- doodooExpr %d% k
+doodoodoodooExpr <- doodoodooExpr %d% t
+return (paste(deparse1(gsub("x", t , doodoodoodooExpr))))
+
+writelineeq(x^2+3*x,8.94427191212252)
+
+
+
+expr2
 
 plot_func1 <- function(r) {
-  vect_2 <- numeric()
   p <- ggplot() + xlim(0,70) + ylim(-1200,1000) + xlab("x")
   for (s in seed) {
   #begin to draw at xs
      xs=0
   #set first y value
      ys=s
-     p <- p
      for(r in 1:r){
        #substitute offset into equation
        x<-quote(x)
@@ -498,32 +695,34 @@ plot_func1 <- function(r) {
        e <- (nth(equation_list,r))
        k <- substitute_q(e, list(x = (eval(ww))))
        #print(k)
-       # calculate touching points t
+       ### calculate touching points t
        fu = as.expression(k)
-#       print(fu)
-#       px=xs
-#       py=ys
-#       diffx = quote(x) %d% px
-#       as.expression(diffx)
-#       expr1 <- fu
-#       expr2 <- as.expression(D(fu,'x'))
-#       expr3 <- as.expression(diffx)
-#       expr4 <- as.expression(py)
-#         g <- do.call(substitute, list(as.list(expr3)[[1]], env= list(a=3)))
-#         h <- do.call(substitute, list(as.list(expr2)[[1]], env= list(a=2)))
-#         i <- do.call(substitute, list(as.list(expr1)[[1]], env= list(a=2)))
-#         j <- do.call(substitute, list(as.list(expr4)[[1]], env= list(a=2)))
-#       fooExpr <- h %c% g
-#       foofooExpr <- fooExpr %d% i
-#       foofoofooExpr <- foofooExpr %d% j
+       #print(fu)
+       px=xs
+       py=ys
+       diffx = quote(x) %d% px
+       expr1 <- fu
+       expr2 <- as.expression(D(fu,'x'))
+       expr3 <- as.expression(diffx)
+       expr4 <- as.expression(py)
+         g <- do.call(substitute, list(as.list(expr3)[[1]], env= list(a=3)))
+         h <- do.call(substitute, list(as.list(expr2)[[1]], env= list(a=2)))
+         i <- do.call(substitute, list(as.list(expr1)[[1]], env= list(a=2)))
+         j <- do.call(substitute, list(as.list(expr4)[[1]], env= list(a=2)))
+       fooExpr <- h %c% g
+       foofooExpr <- fooExpr %d% i
+       foofoofooExpr <- foofooExpr %d% j
    # print(foofoofooExpr)
-#      equa <- function(x){
-#      return(eval(foofoofooExpr))}
-#      t = nth((uniroot.all (equa, lower = 0, upper = 10,
-#                         tol = 0.0001)),1)
-   #print(t)
+      equa <- function(x){
+      return(eval(foofoofooExpr))}
+      t = nth((uniroot.all (equa, lower = 0, upper = 10,
+                         tol = 0.0001)),1)
+   #print(k)
    ##print functions
-   vect_2 <- c(vect_2, as.vector(fu))
+  #
+      force(k)
+      vect_2 <- c(vect_2, as.vector(k))
+
  #  p <- p + 
   #   stat_function(fun = function(x, i){f4(i)*x+((f3(i)-(f4(i))*i))}, args = list(i = i), xlim=c(i, 25)) +
    #  stat_function(fun = function(x, i){f6(f7(i))*x+((f5(f7(i))-(f6(f7(i)))*f7(i)))}, args = list(i = i), color="black", xlim=c(25, 60))
@@ -532,22 +731,426 @@ plot_func1 <- function(r) {
  # print(nth(d2,i))
  # print(xs)
  #calculate offset for next iteration
-  xs <- xs+nth(d1,r)+nth(d2,r)
+      force(r)
+      offset = nth(d1,r)
+      force(offset)
+      onset =nth(d2,r)
+      force(onset)
+  xs <- xs+offset+onset
      }
   }
-  for (n in vect_2){
-  #print(as.expression(n))
-  euax <- function(x){
-    return(eval(as.expression(n)))}
-  p <- p + stat_function(fun = euax, color="blue", lwd = 1)
+  return (vect_2)
+  for(q in 1:3){
+    funcName <- paste( 'func', q, sep = '' )
+    funcs[[funcName]] = funcy(q)
+  }
+  #print(funcs)
+  for (a in funcs){
+    force(a)
+    p <- p + stat_function(fun = a, color="blue", lwd = 1) 
   }
   print(p)
-  print(n)
 } 
+
+
+
+funcs <- list()
+for(i in 1:3){
+  funcName <- paste( 'func', i, sep = '' )
+  funcs[[funcName]] = funcy(i)
+}
+
+funcy <- function(i) {
+  force(i)
+  q = (nth(vect_2,i))
+  force(q)
+  body <- paste(deparse1(q))
+  print(body)
+  args <- "x"
+  eval(parse(text = paste('f <- function(', args, ') { return(' , body , ')}', sep='')))
+}
+
+
+p <- ggplot() + xlim(0,150) + ylim(-500,500) + xlab("x")
+testerprint7 <- function () {
+  for (i in funcs){
+    force(i)
+    print(i)
+    p <- p + stat_function(fun = i, color="blue", lwd = 1) 
+  }
+  print(p)
+}
+
+testerprint7()
+
+funcs
 
 plot_func1(3)
 
+vect_2
+
+vect_2 <-numeric()
+
+vect_2 <- c(vect_2, as.vector(quote((x-2)^-2+(3*x)-199)))
+
+equation_list <- list(quote(x^2-3*x), quote((x-2)^2+3*x-500), quote((-x-2)^2+3*x-19))
+
+for (a in equation_list){
+  force(a)
+  vect_2 <-c(vect_2 ,as.vector(a))}
+
+print(vect_2)
+
+vect_2 <- numeric()
+
+plot_func1(3)
+
+
+euax <- function(x){
+  return(eval(expression(nth(vect_2, x))))}
+
+euaxx <- function(x,y){
+  return(eval(euax(y)))}
+
+f99 <- function(x, a){
+  return (eval(as.expression(nth(vect_2, a))))
+}
+
+vect_2 = c(vect_2, plot_func1(3,vect_2))
+
+vect_2
+
+vect_2 <- c(vect_2, as.vector((quote((x-2)^-2+3*x+499))))
+
+p <- ggplot() + xlim(0,70) + ylim(-1200,1000) + xlab("x")
+df=data.frame(y=1:4)
+testerprint <- function (a) {
+  for (a in c(1:a)){
+   p <- p + stat_function(fun = function(x){f99(x,(aes_(y=df$x[a])))}, color="blue", lwd = 1) 
+  #print(as.expression(n))
+  }
+  print(p)
+}
+
+printy <- function(a) {
+  force(a)
+  p <- p + stat_function(fun = function(x){f99(x,a)}, color="blue", lwd = 1) 
+}
+
+p <- ggplot() + xlim(0,70) + ylim(-1200,1000) + xlab("x")
+funcs <- lapply(1:4, printy)
+funcs
+print(p)
+
+print(p)
+
+funcs <- list()
+funcs[]
+
+# loop through to define functions
+for(i in 1:21){
+  
+  # Make function name
+  funcName <- paste( 'func', i, sep = '' )
+  
+  # make function
+  func = paste('function(x){x * ', i,'}',sep = '')
+  
+  funcs[[funcName]] = eval(parse(text=func))
+  
+}
+
+funcs
+
+
+f99 <- function(x, a){
+  return (eval(as.expression(nth(vect_2, a))))
+}
+
+vect_2
+
+
+p <- ggplot() + xlim(0,70) + ylim(-1200,1000) + xlab("x")
+testerprint2 <- function () {
+  for (i in vect_2){
+    x = 2
+    force(i)
+    #f98 <- function(x){return (eval(as.expression(i)))}
+    #print(f98(1))
+     print(as.expression(i))
+    #p <- p + stat_function(fun = function(x){return (eval(as.expression[i]))}, color="blue", lwd = 1) 
+  }
+  print(p)
+}
+
+testerprint2()
+
+f3 <- function(x){
+  return( eval(f) )
+}
+
+
+
+
+testerprint(4)
+
+lazy_
+
+df=data.frame(x=1:10,y=1:10)
+
+testerprint2 <- function (a) {
+  for (a in 1:a){
+    p <- p + stat_function(fun = function(x){f99(x,!!enquo(a))}, color="blue", lwd = 1) 
+    #print(as.expression(n))
+  }
+  print(p)
+}
+testerprint2(4)
+
+panel=ggplot() + xlim(-1,11) + ylim(-1,11)
+df=data.frame(x=1:10,y=1:10)
+for (i in c(1:10)) {
+  panel=panel+geom_point(aes_(x=df$x[i],y=df$y[i]))
+}
+print(panel)
+
+aes_q(substitute(x))
+p <- ggplot() + xlim(0,70) + ylim(-1200,1000) + xlab("x")
+df=data.frame(y=1:4)
+
+
+testerprint3 <- function (a) {
+        for (a in c(1:a)){
+          f <- function(x){f99(x,(aes_(y=df$x[i])))}
+          p <- p + stat_function(fun = f, color="blue", lwd = 1) 
+          #print(as.expression(n))
+        }
+        print(p)
+}
+      testerprint3(4)
+      df=data.frame(y=1:4)
+      testerprintx <- function (a) {
+        for (a in c(1:a)){
+        print(aes_(y=df$x[a]))}
+      }
+          #print(as.expression(n))
+      testerprintx(4)
+      df
+      df$x[1]
+      
+      p <- ggplot() + xlim(0,70) + ylim(-1200,1000) + xlab("x")
+      df=data.frame(y=1:4)
+      testerprint3 <- function (a) {
+        for (a in c(1:a)){
+          f <- function(x){
+            return (eval(as.expression(nth(vect_2, a))))
+          }
+          p <- p + stat_function(fun = f, color="blue", lwd = 1) 
+          #print(as.expression(n))
+        }
+        print(p)
+      }
+      testerprint3(4)      
+      
+      x <- llist(1, 2, 3, 4, 5)
+      x %!!% 3 # => 4
+
+      
+      
+      # eager argument version
+      `[` <- function(x, ...) { 
+        args <- list(...)
+        if(is.function(x)) {
+          return(do.call(x, args = args))
+        }
+        return(do.call(base::`[`, args = c(list(x), args)))
+      }
+        
+  f[a]    
+ sin[5]     
+  
+  foo <- function(x) {
+  y <- 10
+  ~ x + y
+}
+f <- foo(1)
+f
+f_eval(f)
+      
+aes(!!enquo(a))
+
+testy <- list()
+testloop <- function(a){
+  for (a in 1:a){
+    testy <- c(testy, aes(!!enquo(a)))
+  }
+  testy
+}
+
+multiply <- function(i) {
+  force(i)
+  function(x) x * i
+}
+
+funcs <- list()
+for(i in 1:21){
+  funcName <- paste( 'func', i, sep = '' )
+  funcs[[funcName]] = multiply(i)
+}
+
+testloop(2)
+
+
+dplyr::mutate(data, !!myquosure) 
+
+testerprint2(4)
+
+
+force(i)
+
+enforcer <- function(x,z){
+  return(n)
+}
+
+a=4
+P
+testy <- list()
+
+testloop <- function(a){
+  for (a in 1:a){
+    lazy_eval(a)
+    testy <- c(testy, a)
+  }
+  testy
+}
+
+testy <- list()
+
+testloop <- function(a){
+  for (a in 1:a){
+    lazy_eval(a)
+    testy <- c(testy, as.vector(f1(a)))
+  }
+  testy
+}
+
+testloop(4)
+
+testy
+
+vect_2 <- c(vect_2, as.vector(fu))
+
+a= deparse(a)
+a
+eval(as.symbol(a))
+
+typeof(a)
+as.double()
+push
+varret(4) 
+
+multiply <- function(i) {
+  force(i)
+  function(x) x * i
+}
+#########################################################
+funcs <- list()
+for(i in 1:21){
+  funcName <- paste( 'func', i, sep = '' )
+  funcs[[funcName]] = multiply(i)
+}
+
+
+funcs
+
+
+p <- ggplot() + xlim(0,70) + ylim(-1200,1000) + xlab("x")
+testerprint7 <- function () {
+  for (i in funcs){
+    force(i)
+    print(i)
+    p <- p + stat_function(fun = i, color="blue", lwd = 1) 
+  }
+  print(p)
+}
+
+testerprint7()
+
+######YESSSS!
+a=3
+as.numeric(a)
+n
+vect_2
+
+nth(vect_2,2)
+
+funcs <- list()
+for(i in 1:4){
+  funcName <- paste( 'func', i, sep = '' )
+  funcs[[funcName]] = funcy(i)
+}
+
+funcy <- function(i) {
+  force(i)
+  q = (nth(vect_2,i))
+  force(q)
+  body <- paste(deparse(q))
+  print(body)
+  args <- "x"
+  eval(parse(text = paste('f <- function(', args, ') { return(' , body , ')}', sep='')))
+}
+
+vect_2 <- c(vect_2, as.vector(fu))
+vect_2
+q = (nth(vect_2,2))
+
+as.character(q)
+
+q
+vect_2
+
+
+
+vect_2 <-numeric()
+
+vect_2 <- c(vect_2, as.vector(quote((x-2)^-2+(3*x)-199)))
+
+
+
+paste(deparse(q))
+as.
+funcs
+
+
+
+body <- "(x1 + x2) * x3"
+args <- "x, x2, x3"
+
+body <- (nth(vect_2,i))
+args <- "x"
+eval(parse(text = paste('f <- function(', args, ') { return(' , body , ')}', sep='')))
+
+
+as.function((nth(vect_2,i)))
+
+typeof(vect_2)
+
+print(vect_2)
+
+nth(vect_2, 1)
+
+f99 <- function(x, a){
+  return(eval(as.expression(nth(vect_2, a))))
+}
+
+f99(25, 2)
+(as.expression(nth(vect_2, 2)))
+
+eaux
 do.call(n)
+
+loopi <-function a
+for (a in 1:a){print(a)}
 
 mapply()
 
@@ -583,7 +1186,7 @@ as.function(as.list(fu),x)
 
 print(p)
 
-#### write function to substitute offset into equation
+#### write function to substitute x-offset into equation
 
 substitute_q <- function(x, env) {
   call <- substitute(substitute(y, env), list(y = x))
@@ -602,6 +1205,8 @@ substitute_q <- function(x, env) {
 e <- (nth(equation_list,2))
 
 substitute_q(e, list(x = quote(x-1000)))
+
+#########
 
 xs<-1000
 x<-quote(x)

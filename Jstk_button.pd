@@ -1,4 +1,4 @@
-#N canvas 553 105 715 502 12;
+#N canvas 553 105 715 474 12;
 #X obj 238 602 outlet;
 #X obj 60 268 r cue;
 #X text 101 345 datainlet;
@@ -23,6 +23,7 @@
 #A set;
 #X obj 227 310 text search \$1_\$2_buttonjstk;
 #X obj 227 351 text get \$1_\$2_buttonjstk;
+#X obj 156 1 r update;
 #X connect 1 0 21 0;
 #X connect 4 1 5 0;
 #X connect 5 1 6 0;
@@ -43,3 +44,4 @@
 #X connect 19 0 20 0;
 #X connect 21 0 22 0;
 #X connect 22 0 4 0;
+#X connect 23 0 17 0;
