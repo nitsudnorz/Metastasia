@@ -1,5 +1,6 @@
 library(plotrix)
 library(unikn)
+library(tidyverse)
 
 ##exporter
 pdf("~/Desktop/METASTASIETEST2.pdf", width = 10.0, height = 7,
@@ -50,7 +51,10 @@ plotter <- function(start, end){
        yaxt = "n",
        xaxt = "n")
   par(cex.axis=0.5)
-  axis(2, at = c(50-0:4*0.5-0.4), las = 2, line = 0.6, labels = c(
+  
+  heightkndxE1 = c(50)
+  heighttablesE1 = c(48, 48.6, 49, 49.6)
+  axis(2, at = c(heightkndxE1,heighttablesE1), las = 2, line = 0.6, padj = 1.2, labels = c(
     #tables L
     "kndx",
     "ifn1",
@@ -58,7 +62,7 @@ plotter <- function(start, end){
     "ifn4",
     "idifb"
   ), tick = FALSE)
-  axis(2, at = c(50-0:3*0.5-0.9), las = 2, line = -0.9, labels = c(
+  axis(2, at = heighttablesE1, las = 2, line = -0.9, padj = 1.2, labels = c(
     #tables R
     "ifn2",
     "isk",
@@ -66,41 +70,56 @@ plotter <- function(start, end){
     "idifb"
   ), tick = FALSE)
   
+  abline(h=47.5, col="black", lwd = 0.3)
   
   
-  axis(2, at = c(46-0:2*0.5-0.2), las = 2, line = 0.6, labels = c(
+  heightsynthparamE1 = c(46.5,47,47.5)
+  axis(2, at =  heightsynthparamE1, las = 2, line = 0.6, padj = 1.2, labels = c(
     #synth param L
     "imag",
     "ifma",
     "indxa"
   ), tick = FALSE)
-  axis(2, at = c(46-0:2*0.5-0.2), las = 2, line = -0.9, labels = c(
+  axis(2, at =   heightsynthparamE1, las = 2, line = -0.9, padj = 1.2, labels = c(
     #synth param R
     "ifc",
     "ifmb",
     "indxb"
   ), tick = FALSE)
   
+  abline(h=46, col="black", lwd = 0.3)
   
-  axis(2, at = c(43-0:3*0.5-0.2), las = 2, line = 0.6, labels = c(
+  heightoscparamE1 = c(43.5,44.5,45.5)
+  axis(2, at = heightoscparamE1, las = 2, line = 0.6, padj = 1.2, labels = c(
+    #reverb L
+    "modb",
+    "moda",
+    "main"
+  ), tick = FALSE)
+
+  abline(h=43, col="black", lwd = 0.3) 
+  
+  heightreverbparamE1 = c(43-0:3*0.5)
+  axis(2, at = heightreverbparamE1, las = 2, line = 0.6, padj = 1.2, labels = c(
     #reverb L
     "rev",
     "idis",
     "arevsc",
     "ch1 ch2"
   ), tick = FALSE)
-  axis(2, at = c(43-3*0.5-0.2), las = 2, line = -0.9, labels = c(
+  axis(2, at = last(heightreverbparamE1), las = 2, line = -0.9, padj = 1.2, labels = c(
     #reverb R
     "ch3 ch4"
   ), tick = FALSE)
   
+  abline(h=46, col="black", lwd = 0.3)
   
-  
-  axis(2, at = c(50-19*0.5-0.2), las = 2, line = 0.6, labels = c(
+  heightmastervolE1 = c(41)
+  axis(2, at = heightmastervolE1, las = 2, line = 0.6, padj = 1.2, labels = c(
     #mastervol L
     "ch1 ch2"
   ), tick = FALSE)
-  axis(2, at = c(50-19*0.5-0.2), las = 2, line = -0.9, labels = c(
+  axis(2, at = heightmastervolE1, las = 2, line = -0.9, padj = 1.2, labels = c(
     #mastervol R
     "ch3 ch4"
   ), tick = FALSE)
@@ -113,36 +132,41 @@ plotter <- function(start, end){
   abline(h = 10, col = "black")
   abline(h = 20, col = "black")
   abline(h = 30, col = "black")
-  abline(h = 40, col = "black")
-  mtext("Engine5",                     # Add title manually
+  abline(h = 40.5, col = "black")
+ 
+   mtext("Engine5",                     # Add title manually
         side = 2,
-        line = 2,
+        line = 5,
         las = 2,
         at = 5,
-        cex = 0.8,
+        cex = 0.6,
         font = 3)
-  mtext("Engine4",                     # Add title manually
+  
+   mtext("Engine4",                     # Add title manually
         side = 2,
-        line = 2,
+        line = 5,
         las = 2,
         at = 15,
-        cex = 0.8,
+        cex = 0.6,
         font = 3)
-  mtext("Engine3",                     # Add title manually
+  
+   mtext("Engine3",                     # Add title manually
         side = 2,
-        line = 2,
+        line = 5,
         las = 2,
         at = 25,
-        cex = 0.8,
+        cex = 0.6,
         font = 3)
   mtext("Engine2",                     # Add title manually
         side = 2,
-        line = 2,
+        line = 5,
         las = 2,
         at = 35,
-        cex = 0.8,
+        cex = 0.6,
         font = 3)
-  mtext("Engine1",                     # Add title manually
+ 
+  
+   mtext("Engine1",                     # Add title manually
         side = 2,
         line = 5,
         las = 2,
@@ -161,7 +185,7 @@ plotter <- function(start, end){
         side = 2,
         line = 5,
         las = 2,
-        at = 48,
+        at = 49.5,
         cex = 0.4,
         font = 3,
         adj = 0)
@@ -169,15 +193,15 @@ plotter <- function(start, end){
         side = 2,
         line = 5,
         las = 2,
-        at = 46,
+        at = 47,
         cex = 0.4,
         font = 3,
         adj = 0)
-  mtext("OscTable",                     # Add title manually
+  mtext("OscTab",                     # Add title manually
         side = 2,
         line = 5,
         las = 2,
-        at = 44.5,
+        at = 45.5,
         cex = 0.4,
         font = 3,
         adj = 0)
@@ -189,52 +213,120 @@ plotter <- function(start, end){
         cex = 0.4,
         font = 3,
         adj = 0)
+  
+###functiontables E1
   f (1,0,0.5,0.5,49, 0.8)
   f (2,0.5,1,0.5,49, 0.8)
   f (8,0,0.5,0.5,48, 0.8)
   f (5,0.5,1,0.5,48, 0.8)
+###osctables E1
+  f (1,0,0.5,0.5,45.5, 0.8)
+  f (2,0.5,1,0.5,45.5, 0.8)
+  f (8,0,0.5,0.5,44.5, 0.8)
+  f (5,0.5,1,0.5,44.5, 0.8)
+  f (8,0,0.5,0.5,43.5, 0.8)
+  f (5,0.5,1,0.5,43.5, 0.8)
+   
+ ## draw line between steps 
   steps = c(1:10)
   for (l in steps){
-    abline(v = steps, col = "grey", lty = "dashed")
-  	}
+    abline(v = steps, col = "black", lwd = 0.5)
+  }
+  
+  ####engine 1
+  ### Textboxes Mastervol
+  textbox(c(0,0.25), heightmastervolE1, c("Preset=100"), cex=0.4, justify = l, lwd = 0.2,
+          col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.25,0.5), heightmastervolE1, c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
+          col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,0.75), heightmastervolE1, c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
+          col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.75,1), heightmastervolE1, c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
+          col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
+  
+  ### Textboxes reverb
+  
+  ##textbox rev
+  textbox(c(0,0.33),   heightreverbparamE1[[1]], c("Preset = 0.2"), cex=0.4, justify = 'c', lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  ##textbox idis
+  textbox(c(0.33,0.66), heightreverbparamE1[[1]], c("Preset = 0.2"), cex=0.4, justify = 'c', lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  ##textbox arevsc
+  textbox(c(0.66,1), heightreverbparamE1[[1]], c("Preset = 0.2"), cex=0.4, justify = 'c', lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  
+  
+  ###Reverbout
+  textbox(c(0,0.25), heightreverbparamE1[[4]], c("Preset=100"), cex=0.4, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.25,0.5), heightreverbparamE1[[4]], c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,0.75), heightreverbparamE1[[4]], c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.75,1), heightreverbparamE1[[4]], c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  ##textbox kndx
+  textbox(c(0,1), 50, c("Preset = 0.2"), cex=0.5, justify = 'c', lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  ### textboxtables
+  textbox(c(0,0.5), 49, c("Preset = 0.5"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,1), 49, c("Joystick-x = 0-1"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  textbox(c(0,0.5), 48, c("Preset=100"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,1), 48, c("Preset=100"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  ### textboxosctables
+  textbox(c(0,0.5), 45.5, c("Preset = 0.5"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,1), 45.5, c("Joystick-x = 0-1"), cex=0.5, justify = l,lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  textbox(c(0,0.5), 44.5, c("Preset=100"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,1), 44.5, c("Preset=100"), cex=0.5, justify = l,lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  textbox(c(0,0.5), 43.5, c("Preset=100"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,1), 43.5, c("Preset=100"), cex=0.5, justify = l,lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  ### textboxsynth
+  textbox(c(0,0.5), 47, c("Preset = 0.5"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,1), 47, c("Joystick-x = 0-1"), cex=0.5, justify = l,lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  textbox(c(0,0.5), 47.5, c("Preset=100"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,1), 47.5, c("Preset=100"), cex=0.5, justify = l,lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  textbox(c(0,0.5), 46.5, c("Preset=100"), cex=0.5, justify = l, lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  textbox(c(0.5,1), 46.5, c("Preset=100"), cex=0.5, justify = l,lwd = 0.2,
+          col="black", border="black", margin = c(-0.1,0,0,0), box = 1,adj = c(-0.1,0.3))
+  
+  
+  
+  
 }
 
 
 drawpage(1, 0, 10)
-### Textboxes Mastervol
-textbox(c(0,0.25), 40.4, c("Preset=100"), cex=0.4, justify = l, lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
-textbox(c(0.25,0.5), 40.4, c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
-textbox(c(0.5,0.75), 40.4, c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
-textbox(c(0.75,1), 40.4, c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
 
-### Textboxes Reverbout
-textbox(c(0,0.25), 40.9, c("Preset=100"), cex=0.4, justify = l, lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
-textbox(c(0.25,0.5), 40.9, c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
-textbox(c(0.5,0.75), 40.9, c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
-textbox(c(0.75,1), 40.9, c("Preset=100"), cex=0.4, justify = l,lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
 
-##textbox kndx
-textbox(c(0,1), 50, c("Preset = 0.2"), cex=0.5, justify = l, lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
+####engine 1
 
-### textboxtables
-textbox(c(0,0.5), 49, c("Preset = 0.5"), cex=0.5, justify = l, lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
-textbox(c(0.5,1), 49, c("Joystick-x = 0-1"), cex=0.5, justify = l,lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
 
-textbox(c(0,0.5), 48, c("Preset=100"), cex=0.5, justify = l, lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
-textbox(c(0.5,1), 48, c("Preset=100"), cex=0.5, justify = l,lwd = 0.2,
-        col="black", border="black", margin = 0, box = 1,adj = c(-0.1,0.3))
 
 
 dev.off()
