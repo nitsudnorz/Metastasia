@@ -1,4 +1,4 @@
-#N canvas 70 491 1728 597 12;
+#N canvas 0 423 1728 569 12;
 #X obj 236 840 outlet;
 #X text 34 394 kndx;
 #X text 1139 139 ifma;

@@ -1,5 +1,4 @@
-#N canvas 521 227 1207 332 12;
-#X obj 66 61 Preset \$1 kndx;
+#N canvas 521 227 1207 355 12;
 #X obj 186 60 Jstk_scaling \$1 \$2;
 #X obj 337 59 Jstk_button \$1 \$2;
 #X obj 473 59 icon_scaling \$1 \$2;
@@ -9,9 +8,13 @@
 #X text 161 190 loop to gui;
 #X obj 63 192 s \$1_\$2_gui;
 #X obj 290 191 r \$1_\$2;
-#X connect 0 0 8 0;
-#X connect 1 0 8 0;
-#X connect 2 0 8 0;
-#X connect 3 0 8 0;
-#X connect 4 0 8 0;
-#X connect 9 0 5 0;
+#X obj 14 62 inlet;
+#X text 11 39 test;
+#X obj 66 61 Preset \$1 \$2;
+#X connect 0 0 7 0;
+#X connect 1 0 7 0;
+#X connect 2 0 7 0;
+#X connect 3 0 7 0;
+#X connect 8 0 4 0;
+#X connect 9 0 7 0;
+#X connect 11 0 7 0;
