@@ -1,4 +1,4 @@
-#N canvas 1850 35 2438 896 12;
+#N canvas 1850 35 2438 812 12;
 #X obj 215 54 bendin;
 #X obj 278 114 cyclone/scale 0 16383 0 1;
 #X obj 44 127 cyclone/xbendout;
@@ -15,7 +15,7 @@
 #X obj 1029 310 s iconfader_9;
 #X obj 184 158 cyclone/gate 9;
 #X text 63 304 Fader;
-#X obj 185 452 notein 1;
+#X obj 110 362 notein 1;
 #X text 72 488 touch;
 #X obj 187 482 route 104 105 106 107 108 109 110 111 112;
 #X obj 191 541 route 24 25 26 27 28 29 30 31;
@@ -2356,6 +2356,9 @@
 #X obj 3013 545 route 8 9 10 11 12 13 14 15;
 #X obj 3013 567 route 0 1 2 3 4 5 6 7;
 #X obj 3012 385 r iconbuttonroutin;
+#X obj 179 421 pack;
+#X obj 267 380 sel 127;
+#X msg 210 394 1;
 #X connect 0 0 1 0;
 #X connect 0 0 2 0;
 #X connect 0 1 2 1;
@@ -2380,11 +2383,8 @@
 #X connect 14 7 82 0;
 #X connect 14 8 13 0;
 #X connect 14 8 92 0;
-#X connect 16 0 18 0;
-#X connect 16 0 19 0;
-#X connect 16 0 24 0;
-#X connect 16 0 26 0;
-#X connect 16 0 25 0;
+#X connect 16 0 225 0;
+#X connect 16 1 226 0;
 #X connect 18 0 27 0;
 #X connect 18 0 96 0;
 #X connect 18 1 28 0;
@@ -2563,4 +2563,12 @@
 #X connect 224 0 221 0;
 #X connect 224 0 222 0;
 #X connect 224 0 223 0;
+#X connect 225 0 18 0;
+#X connect 225 0 26 0;
+#X connect 225 0 25 0;
+#X connect 225 0 24 0;
+#X connect 225 0 19 0;
+#X connect 226 0 227 0;
+#X connect 226 1 225 1;
+#X connect 227 0 225 1;
 #X coords 0 -1 1 1 560 310 2 1740 320;
