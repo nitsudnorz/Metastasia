@@ -26,18 +26,12 @@ typeof(nth(e1_evolch1_preset,2))
 ##get first element
 (nth(e1_evolch1_preset,1))[[1]]
 
-e1_ifc_preset
+e1_evolch4_preset
 e1_evolch1_preset
 
-typeof(e1_evolch1_preset)
-
-nrow(e1_evolch1_preset)
-
-for (i in 1:(nrow(e1_ifc_preset))){
- print(paste("preset =", (nth(e1_ifc_preset,i))[[2]]))
+for (i in e1_evolch1_preset){
+  print(i)
 }
-
-paste("preset = ", (nth(e1_ifc_preset,i))[[2]])
 
 nth(e1_evolch1_preset, 2)
 
