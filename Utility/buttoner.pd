@@ -1,0 +1,16 @@
+#N canvas 1252 516 2012 748 12;
+#X obj 164 60 Jstk_button \$1 \$2;
+#X obj 294 60 Icon_button \$1 \$2;
+#X obj 291 234 outlet;
+#X text 161 190 loop to gui;
+#X obj 63 192 s \$1_\$2_gui;
+#X obj 290 191 r \$1_\$2;
+#X obj 14 62 inlet;
+#X text 11 39 test;
+#X obj 66 61 Preset \$1 \$2;
+#X text 63 27 three Modes of Inputs;
+#X connect 0 0 4 0;
+#X connect 1 0 4 0;
+#X connect 5 0 2 0;
+#X connect 6 0 4 0;
+#X connect 8 0 4 0;
