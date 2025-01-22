@@ -119,7 +119,7 @@ For questions and feedback feel free to reach out to me!
 
 
 ## License
-TO DO, also license for samples 
+
 
 ## Project status
 In development
